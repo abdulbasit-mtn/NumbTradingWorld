@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)file:///C:/Users/XI/Downloads/SMC_Confluence_Scanner_Hyperliquid.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMC Confluence Scanner — Hyperliquid</title>
+<style>
+:root{
+  --bg:#030712; --panel:#071421; --panel2:#0b1b2a; --panel3:#10273a; --line:#21475f;
+  --text:#eef8ff; --muted:#8ca6b9; --green:#17d99a; --red:#ff526a; --yellow:#ffd166;
+  --blue:#55a7ff; --purple:#b98cff; --cyan:#34d7ff; --orange:#ff9f43;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 18% 0%,rgba(85,167,255,.16),transparent 28%),
+    radial-gradient(circle at 88% 8%,rgba(23,217,154,.12),transparent 30%),
+    linear-gradient(135deg,#02050d,#061422 58%,#030712);
+  color:var(--text);
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+}
+header{position:sticky;top:0;z-index:30;background:rgba(3,7,18,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:14px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:46px;height:46px;border-radius:17px;background:linear-gradient(135deg,var(--orange),var(--purple));display:grid;place-items:center;color:#031018;font-size:20px;font-weight:1000;box-shadow:0 0 32px rgba(185,140,255,.18)}
+h1{font-size:20px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select,input,button{background:#091724;color:var(--text);border:1px solid #2a5068;border-radius:13px;padding:10px 11px;font-size:13px;outline:none}
+button{border:0;background:linear-gradient(135deg,#ff9f43,#b98cff);font-weight:900;cursor:pointer;color:#0a0a0a}
+button:disabled{opacity:.55;cursor:not-allowed}
+main{display:grid;grid-template-columns:430px 1fr;gap:12px;padding:12px}
+.panel{background:linear-gradient(180deg,rgba(10,24,37,.96),rgba(6,15,25,.96));border:1px solid #1e3c52;border-radius:22px;box-shadow:0 22px 55px rgba(0,0,0,.28)}
+.left{padding:12px;height:calc(100vh - 100px);overflow:auto}
+.right{padding:14px}
+.status{font-size:12px;color:var(--muted);margin-bottom:8px}
+.progress{height:5px;background:#0a1c2c;border-radius:6px;overflow:hidden;margin-bottom:8px}
+#bar{height:100%;background:linear-gradient(90deg,var(--orange),var(--purple));width:0;transition:width .25s}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:8px}
+.sum{background:#0d2032;border:1px solid #1e3c52;border-radius:10px;padding:7px;text-align:center}
+.sum span{display:block;font-size:10px;color:var(--muted)}
+.sum b{font-size:15px}
+.filterNote{font-size:11px;color:var(--muted);margin-bottom:6px}
+.pair{background:#0d2336;border:1px solid #234662;border-radius:14px;padding:11px;cursor:pointer;margin-bottom:9px;transition:.18s}
+.pair:hover{border-color:#3a6e91;transform:translateY(-1px)}
+.pair.active{border-color:var(--purple);box-shadow:0 0 0 2px rgba(185,140,255,.3)}
+.pairTop{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.sym{font-weight:900;font-size:14px}
+.px{font-size:11px;color:var(--muted)}
+.badge{padding:3px 8px;border-radius:8px;font-size:11px;font-weight:900;letter-spacing:.4px}
+.badge.LONG{background:rgba(23,217,154,.18);color:var(--green);border:1px solid rgba(23,217,154,.4)}
+.badge.SHORT{background:rgba(255,82,106,.18);color:var(--red);border:1px solid rgba(255,82,106,.4)}
+.scoreBadge{margin-top:4px;font-size:11px;font-weight:900;padding:3px 7px;border-radius:8px;display:inline-block}
+.scoreA{background:rgba(255,209,102,.18);color:var(--yellow);border:1px solid rgba(255,209,102,.4)}
+.scoreB{background:rgba(85,167,255,.18);color:var(--blue);border:1px solid rgba(85,167,255,.4)}
+.scoreC{background:rgba(185,140,255,.18);color:var(--purple);border:1px solid rgba(185,140,255,.4)}
+.tfgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin-top:8px}
+.tfcell{padding:3px 1px;text-align:center;font-size:9px;font-weight:800;background:#0a1c2c;border-radius:4px;font-family:Consolas,monospace}
+.tfcell.long{background:rgba(23,217,154,.25);color:var(--green)}
+.tfcell.short{background:rgba(255,82,106,.25);color:var(--red)}
+.tfcell.neutral{color:var(--muted)}
+.tflabel{font-size:8px;color:var(--muted);font-family:Consolas,monospace;margin-top:1px}
+.empty{color:var(--muted);font-size:12px;text-align:center;padding:30px 12px}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;margin-bottom:12px}
+.signal{background:#0d2336;border:1px solid #234662;border-radius:16px;padding:14px}
+.signal .label{font-size:11px;color:var(--muted);text-transform:uppercase}
+.big{font-size:42px;font-weight:1000;letter-spacing:1px;margin:6px 0}
+.big.green{color:var(--green)} .big.red{color:var(--red)} .big.yellow{color:var(--yellow)}
+.reason{font-size:13px;line-height:1.55;color:#cfe3f3}
+.play{margin-top:10px;background:#0a1c2c;border:1px dashed #2a5068;border-radius:11px;padding:10px;font-size:12px;color:#b8d2e6}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.stat{background:#0d2336;border:1px solid #234662;border-radius:13px;padding:11px}
+.stat .label{font-size:10px;color:var(--muted);text-transform:uppercase}
+.stat .v{font-size:17px;font-weight:900;margin-top:3px}
+.stat .v.green{color:var(--green)} .stat .v.red{color:var(--red)} .stat .v.blue{color:var(--blue)}
+.below{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.card{background:#0d2336;border:1px solid #234662;border-radius:14px;padding:12px}
+.card h3{margin:0 0 8px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{border-bottom:1px solid #193247;padding:7px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-size:11px;text-transform:uppercase}
+.pill{display:inline-block;padding:3px 7px;border-radius:7px;background:#142b3d;font-size:10px;font-weight:1000}
+.pill.green{color:var(--green)} .pill.red{color:var(--red)} .pill.yellow{color:var(--yellow)}
+.pill.blue{color:var(--blue)} .pill.purple{color:var(--purple)} .pill.orange{color:var(--orange)}
+.tfrow{display:grid;grid-template-columns:60px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid #193247;font-size:11px}
+.tfrow:last-child{border-bottom:0}
+.tfrow .tf{font-family:Consolas,monospace;color:var(--muted);font-weight:800}
+.tfrow .factors{display:flex;gap:4px;flex-wrap:wrap}
+.factor{padding:2px 6px;border-radius:5px;background:#0a1c2c;font-size:10px;font-weight:700;font-family:Consolas,monospace}
+.factor.bull{background:rgba(23,217,154,.18);color:var(--green)}
+.factor.bear{background:rgba(255,82,106,.18);color:var(--red)}
+.log{max-height:170px;overflow:auto;white-space:pre-wrap;font-size:11px;line-height:1.45;font-family:Consolas,monospace;background:#050d16;border:1px solid #193247;border-radius:12px;padding:10px;color:#a9bfd0}
+.disclaimer{font-size:11px;color:var(--muted);margin-top:8px;padding:8px;background:#0a1c2c;border-radius:8px;border:1px dashed #2a5068;line-height:1.5}
+@media(max-width:1120px){main{grid-template-columns:1fr}.left{height:auto;max-height:500px}.hero{grid-template-columns:1fr}}
+@media(max-width:760px){header{padding:10px}.controls{width:100%}select,input,button{flex:1;min-width:120px}.below{grid-template-columns:1fr}.big{font-size:35px}.stats{grid-template-columns:repeat(2,1fr)}.summary{grid-template-columns:repeat(2,1fr)}.tfgrid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="brand">
+      <div class="logo">SMC</div>
+      <div>
+        <h1>SMC Confluence Scanner</h1>
+        <div class="sub">Hyperliquid perps · Order Blocks · Breakers · Key levels · 8 timeframes</div>
+      </div>
+    </div>
+    <div class="controls">
+      <select id="universe">
+        <option value="80">Top 80</option>
+        <option value="50" selected="">Top 50</option>
+        <option value="30">Top 30 quick</option>
+        <option value="20">Top 20 fastest</option>
+      </select>
+      <select id="minScore">
+        <option value="2.5">Min score 2.5</option>
+        <option value="3.0" selected="">Min score 3.0</option>
+        <option value="4.0">Min score 4.0 (strict)</option>
+        <option value="5.0">Min score 5.0 (rare)</option>
+      </select>
+      <select id="primaryTf">
+        <option value="15m">Primary 15m</option>
+        <option value="30m">Primary 30m</option>
+        <option value="1h" selected="">Primary 1h</option>
+        <option value="4h">Primary 4h</option>
+      </select>
+      <button id="scan">Scan SMC Setups</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="panel left">
+  <div class="status" id="status">Completed. Qualified: <b>13</b> / 80.</div>
+  <div class="progress"><div id="bar" style="width: 100%;"></div></div>
+  <div class="summary">
+    <div class="sum"><span>Scanned</span><b id="scanned">80</b></div>
+    <div class="sum"><span>Qualified</span><b id="qualified">13</b></div>
+    <div class="sum"><span>Longs</span><b id="longs">11</b></div>
+    <div class="sum"><span>Shorts</span><b id="shorts">2</b></div>
+  </div>
+  <div class="filterNote">Each card shows the per-TF mini-grid (15m / 30m / 1h / 2h / 4h / 1d / 2d / 3d). Setup must score ≥ threshold on the primary TF to display.</div>
+  <div id="pairs"><div class="pair " onclick="choose(&#39;kPEPE&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">kPEPE</div><div class="px">0.0041810 · 4h primary</div></div>
+        <div><div class="badge LONG">LONG</div><div class="scoreBadge scoreA">6.70</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell short" title="15m: SHORT 3.5">S</div><div class="tfcell long" title="30m: LONG 5.5">L</div><div class="tfcell long" title="1h: LONG 6.2">L</div><div class="tfcell long" title="2h: LONG 5.7">L</div><div class="tfcell long" title="4h: LONG 5.2">L</div><div class="tfcell long" title="1d: LONG 2.5">L</div><div class="tfcell long" title="2d: LONG 4.5">L</div><div class="tfcell long" title="3d: LONG 4.0">L</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div><div class="pair " onclick="choose(&#39;BTC&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">BTC</div><div class="px">79,810 · 4h primary</div></div>
+        <div><div class="badge LONG">LONG</div><div class="scoreBadge scoreA">5.50</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell short" title="15m: SHORT 4.0">S</div><div class="tfcell long" title="30m: LONG 3.0">L</div><div class="tfcell neutral">·</div><div class="tfcell long" title="2h: LONG 4.0">L</div><div class="tfcell long" title="4h: LONG 4.5">L</div><div class="tfcell long" title="1d: LONG 4.0">L</div><div class="tfcell long" title="2d: LONG 5.5">L</div><div class="tfcell neutral">·</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div><div class="pair " onclick="choose(&#39;PUMP&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">PUMP</div><div class="px">0.0020240 · 4h primary</div></div>
+        <div><div class="badge LONG">LONG</div><div class="scoreBadge scoreA">5.45</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell long" title="15m: LONG 5.7">L</div><div class="tfcell long" title="30m: LONG 3.2">L</div><div class="tfcell neutral">·</div><div class="tfcell neutral">·</div><div class="tfcell long" title="4h: LONG 4.7">L</div><div class="tfcell long" title="1d: LONG 4.0">L</div><div class="tfcell neutral">·</div><div class="tfcell neutral">·</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div><div class="pair " onclick="choose(&#39;ENA&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">ENA</div><div class="px">0.1215700 · 4h primary</div></div>
+        <div><div class="badge LONG">LONG</div><div class="scoreBadge scoreA">5.20</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell neutral">·</div><div class="tfcell neutral">·</div><div class="tfcell neutral">·</div><div class="tfcell neutral">·</div><div class="tfcell long" title="4h: LONG 4.7">L</div><div class="tfcell long" title="1d: LONG 7.0">L</div><div class="tfcell long" title="2d: LONG 4.5">L</div><div class="tfcell neutral">·</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div><div class="pair " onclick="choose(&#39;TAO&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">TAO</div><div class="px">310.4200 · 4h primary</div></div>
+        <div><div class="badge LONG">LONG</div><div class="scoreBadge scoreB">4.70</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell long" title="15m: LONG 2.7">L</div><div class="tfcell long" title="30m: LONG 5.0">L</div><div class="tfcell neutral">·</div><div class="tfcell long" title="2h: LONG 2.7">L</div><div class="tfcell long" title="4h: LONG 3.2">L</div><div class="tfcell long" title="1d: LONG 3.0">L</div><div class="tfcell long" title="2d: LONG 5.0">L</div><div class="tfcell long" title="3d: LONG 6.5">L</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div><div class="pair " onclick="choose(&#39;IP&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">IP</div><div class="px">0.5424900 · 4h primary</div></div>
+        <div><div class="badge LONG">LONG</div><div class="scoreBadge scoreB">4.50</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell short" title="15m: SHORT 5.0">S</div><div class="tfcell long" title="30m: LONG 4.5">L</div><div class="tfcell neutral">·</div><div class="tfcell long" title="2h: LONG 2.7">L</div><div class="tfcell long" title="4h: LONG 3.5">L</div><div class="tfcell long" title="1d: LONG 4.0">L</div><div class="tfcell long" title="2d: LONG 4.5">L</div><div class="tfcell neutral">·</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div><div class="pair " onclick="choose(&#39;SOL&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">SOL</div><div class="px">88.2840 · 4h primary</div></div>
+        <div><div class="badge LONG">LONG</div><div class="scoreBadge scoreC">3.95</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell short" title="15m: SHORT 4.0">S</div><div class="tfcell short" title="30m: SHORT 4.5">S</div><div class="tfcell long" title="1h: LONG 4.5">L</div><div class="tfcell long" title="2h: LONG 3.2">L</div><div class="tfcell long" title="4h: LONG 2.7">L</div><div class="tfcell long" title="1d: LONG 6.0">L</div><div class="tfcell long" title="2d: LONG 5.0">L</div><div class="tfcell long" title="3d: LONG 5.0">L</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div><div class="pair " onclick="choose(&#39;FARTCOIN&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">FARTCOIN</div><div class="px">0.2466100 · 4h primary</div></div>
+        <div><div class="badge LONG">LONG</div><div class="scoreBadge scoreC">3.95</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell short" title="15m: SHORT 5.0">S</div><div class="tfcell short" title="30m: SHORT 5.0">S</div><div class="tfcell short" title="1h: SHORT 4.5">S</div><div class="tfcell long" title="2h: LONG 3.2">L</div><div class="tfcell long" title="4h: LONG 3.2">L</div><div class="tfcell long" title="1d: LONG 5.5">L</div><div class="tfcell neutral">·</div><div class="tfcell long" title="3d: LONG 4.5">L</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div><div class="pair " onclick="choose(&#39;HYPE&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">HYPE</div><div class="px">42.5900 · 4h primary</div></div>
+        <div><div class="badge LONG">LONG</div><div class="scoreBadge scoreC">3.75</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell short" title="15m: SHORT 5.0">S</div><div class="tfcell short" title="30m: SHORT 4.5">S</div><div class="tfcell long" title="1h: LONG 5.5">L</div><div class="tfcell neutral">·</div><div class="tfcell long" title="4h: LONG 3.0">L</div><div class="tfcell long" title="1d: LONG 3.7">L</div><div class="tfcell long" title="2d: LONG 4.2">L</div><div class="tfcell short" title="3d: SHORT 4.5">S</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div><div class="pair " onclick="choose(&#39;XRP&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">XRP</div><div class="px">1.3853 · 4h primary</div></div>
+        <div><div class="badge SHORT">SHORT</div><div class="scoreBadge scoreC">3.75</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell short" title="15m: SHORT 5.0">S</div><div class="tfcell neutral">·</div><div class="tfcell short" title="1h: SHORT 5.2">S</div><div class="tfcell neutral">·</div><div class="tfcell short" title="4h: SHORT 2.5">S</div><div class="tfcell short" title="1d: SHORT 7.2">S</div><div class="tfcell short" title="2d: SHORT 6.7">S</div><div class="tfcell short" title="3d: SHORT 4.0">S</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div><div class="pair " onclick="choose(&#39;VVV&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">VVV</div><div class="px">13.8440 · 4h primary</div></div>
+        <div><div class="badge LONG">LONG</div><div class="scoreBadge scoreC">3.70</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell neutral">·</div><div class="tfcell long" title="30m: LONG 2.7">L</div><div class="tfcell long" title="1h: LONG 2.7">L</div><div class="tfcell neutral">·</div><div class="tfcell long" title="4h: LONG 3.2">L</div><div class="tfcell neutral">·</div><div class="tfcell neutral">·</div><div class="tfcell neutral">·</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div><div class="pair " onclick="choose(&#39;AERO&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">AERO</div><div class="px">0.4516400 · 4h primary</div></div>
+        <div><div class="badge LONG">LONG</div><div class="scoreBadge scoreC">3.50</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell neutral">·</div><div class="tfcell long" title="30m: LONG 6.0">L</div><div class="tfcell short" title="1h: SHORT 4.0">S</div><div class="tfcell long" title="2h: LONG 4.0">L</div><div class="tfcell long" title="4h: LONG 3.0">L</div><div class="tfcell short" title="1d: SHORT 4.5">S</div><div class="tfcell short" title="2d: SHORT 4.0">S</div><div class="tfcell short" title="3d: SHORT 3.0">S</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div><div class="pair active" onclick="choose(&#39;ETH&#39;)">
+      <div class="pairTop">
+        <div><div class="sym">ETH</div><div class="px">2,282.1 · 4h primary</div></div>
+        <div><div class="badge SHORT">SHORT</div><div class="scoreBadge scoreC">3.25</div></div>
+      </div>
+      <div class="tfgrid"><div class="tfcell neutral">·</div><div class="tfcell short" title="30m: SHORT 3.2">S</div><div class="tfcell neutral">·</div><div class="tfcell neutral">·</div><div class="tfcell short" title="4h: SHORT 2.5">S</div><div class="tfcell short" title="1d: SHORT 6.0">S</div><div class="tfcell short" title="2d: SHORT 4.0">S</div><div class="tfcell neutral">·</div></div>
+      <div class="tfgrid" style="margin-top:1px"><div class="tflabel">15m</div><div class="tflabel">30m</div><div class="tflabel">1h</div><div class="tflabel">2h</div><div class="tflabel">4h</div><div class="tflabel">1d</div><div class="tflabel">2d</div><div class="tflabel">3d</div></div>
+    </div></div>
+</section>
+
+<section class="panel right">
+  <div class="hero">
+    <div class="signal">
+      <div class="label">SMC Confluence</div>
+      <div id="sig" class="big red">SHORT</div>
+      <div id="why" class="reason"><b>ETH</b> on <b>4h</b> — Bearish breaker breakdown · ↓ EMA200 · Bearish FVG nearby</div>
+      <div id="playbook" class="play">SHORT setup on 4h with <b>4/8</b> timeframes aligned. Cross-TF boost: +0.75. Wait for current candle to confirm continuation past the entry. Honor the invalidation level — do not move it.</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="label">Score</div><div id="qscore" class="v blue">3.25</div></div>
+      <div class="stat"><div class="label">Entry</div><div id="entry" class="v">2,282.1</div></div>
+      <div class="stat"><div class="label">Invalidation</div><div id="sl" class="v red">2,334.58</div></div>
+      <div class="stat"><div class="label">Objective</div><div id="tp" class="v green">2,166.64</div></div>
+    </div>
+  </div>
+
+  <div class="below">
+    <div class="card">
+      <h3>Confluence Factors (primary TF)</h3>
+      <table><thead><tr><th>Factor</th><th>Reading</th><th>Weight</th></tr></thead>
+      <tbody id="factors-body"><tr><td><span class="pill red">Breaker</span></td><td>Bearish break of 2,290</td><td>+1.5</td></tr><tr><td><span class="pill red">EMA200</span></td><td>2,285.2 broken downward</td><td>+0.5</td></tr><tr><td><span class="pill green">FVG</span></td><td>Bullish gap @ 2,304.9-2,308.9</td><td>+0.5</td></tr><tr><td><span class="pill red">FVG</span></td><td>Bearish gap @ 2,284.9-2,320.2</td><td>+0.5</td></tr></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Multi-Timeframe Breakdown</h3>
+      <div id="tf-breakdown"><div class="tfrow">
+      <div class="tf">15m</div>
+      <div class="factors">
+        <span class="factor ">WAIT 2.5</span>
+        <span class="factor">no setup</span>
+      </div>
+    </div><div class="tfrow">
+      <div class="tf">30m</div>
+      <div class="factors">
+        <span class="factor bear">SHORT 3.2</span>
+        <span class="factor bear">Bearish breaker breakdown</span><span class="factor bear">↓ EMA21</span><span class="factor bear">Bearish FVG nearby</span><span class="factor bear">EMA stack bearish</span>
+      </div>
+    </div><div class="tfrow">
+      <div class="tf">1h</div>
+      <div class="factors">
+        <span class="factor ">WAIT 2.2</span>
+        <span class="factor">no setup</span>
+      </div>
+    </div><div class="tfrow">
+      <div class="tf">2h</div>
+      <div class="factors">
+        <span class="factor ">WAIT 2.0</span>
+        <span class="factor">no setup</span>
+      </div>
+    </div><div class="tfrow">
+      <div class="tf">4h</div>
+      <div class="factors">
+        <span class="factor bear">SHORT 2.5</span>
+        <span class="factor bear">Bearish breaker breakdown</span><span class="factor bear">↓ EMA200</span><span class="factor bear">Bearish FVG nearby</span>
+      </div>
+    </div><div class="tfrow">
+      <div class="tf">1d</div>
+      <div class="factors">
+        <span class="factor bear">SHORT 6.0</span>
+        <span class="factor bear">OB retest holding</span><span class="factor bear">Bearish breaker breakdown</span><span class="factor bear">↓ EMA21</span><span class="factor bear">↓ Weekly VWAP</span>
+      </div>
+    </div><div class="tfrow">
+      <div class="tf">2d</div>
+      <div class="factors">
+        <span class="factor bear">SHORT 4.0</span>
+        <span class="factor bear">Bearish breaker breakdown</span><span class="factor bear">↓ EMA50</span><span class="factor bear">↓ Weekly VWAP</span><span class="factor bear">↓ Monthly VWAP</span>
+      </div>
+    </div><div class="tfrow">
+      <div class="tf">3d</div>
+      <div class="factors">
+        <span class="factor ">WAIT 3.5</span>
+        <span class="factor">no setup</span>
+      </div>
+    </div></div>
+    </div>
+  </div>
+
+  <div class="below" style="grid-template-columns:1fr">
+    <div class="card">
+      <h3>Scanner Log</h3>
+      <div id="logs" class="log">[2:53:03 AM] IP: LONG score 4.50 (5/8 TFs aligned)
+[2:53:02 AM] HMSTR: no setup
+[2:53:00 AM] AERO: LONG score 3.50 (3/8 TFs aligned)
+[2:53:00 AM] ORDI: no setup
+[2:52:58 AM] CHILLGUY: no setup
+[2:52:57 AM] kLUNC: no setup
+[2:52:57 AM] DOT: no setup
+[2:52:55 AM] REZ: no setup
+[2:52:55 AM] INJ: no setup
+[2:52:55 AM] ATOM: no setup
+[2:52:53 AM] BCH: no setup
+[2:52:53 AM] RUNE: no setup
+[2:52:53 AM] HEMI: no setup
+[2:52:51 AM] LDO: no setup
+[2:52:51 AM] AZTEC: no setup
+[2:52:51 AM] ALGO: no setup
+[2:52:49 AM] SEI: no setup
+[2:52:49 AM] UNI: no setup
+[2:52:49 AM] FIL: no setup
+[2:52:47 AM] ZK: no setup
+[2:52:47 AM] APT: no setup
+[2:52:46 AM] TIA: no setup
+[2:52:45 AM] MORPHO: no setup
+[2:52:45 AM] IO: no setup
+[2:52:45 AM] POPCAT: no setup
+[2:52:43 AM] ASTER: no setup
+[2:52:43 AM] APE: no setup
+[2:52:42 AM] BIO: no setup
+[2:52:41 AM] TRX: no setup
+[2:52:40 AM] TRUMP: no setup
+[2:52:40 AM] CRV: no setup
+[2:52:39 AM] DASH: no setup
+[2:52:39 AM] OP: no setup
+[2:52:38 AM] LTC: no setup
+[2:52:37 AM] SPX: no setup
+[2:52:36 AM] ZRO: no setup
+[2:52:36 AM] ICP: no setup
+[2:52:35 AM] AVAX: no setup
+[2:52:34 AM] WLD: no setup
+[2:52:34 AM] ADA: no setup
+[2:52:33 AM] WIF: no setup
+[2:52:33 AM] kBONK: no setup
+[2:52:32 AM] NOT: no setup
+[2:52:31 AM] MEGA: no setup
+[2:52:30 AM] JUP: no setup
+[2:52:29 AM] ARB: no setup
+[2:52:29 AM] WLFI: no setup
+[2:52:28 AM] PAXG: no setup
+[2:52:27 AM] LINK: no setup
+[2:52:27 AM] BNB: no setup
+[2:52:25 AM] AAVE: no setup
+[2:52:25 AM] XMR: no setup
+[2:52:25 AM] MON: no setup
+[2:52:23 AM] VIRTUAL: no setup
+[2:52:23 AM] PENGU: no setup
+[2:52:23 AM] LIT: no setup
+[2:52:21 AM] PENDLE: no setup
+[2:52:21 AM] CHIP: no setup
+[2:52:20 AM] STRK: no setup
+[2:52:19 AM] SUI: no setup
+[2:52:18 AM] NIL: no setup
+[2:52:18 AM] XPL: no setup
+[2:52:16 AM] FARTCOIN: LONG score 3.95 (4/8 TFs aligned)
+[2:52:15 AM] ONDO: no setup
+[2:52:15 AM] DYDX: no setup
+[2:52:14 AM] ENA: LONG score 5.20 (3/8 TFs aligned)
+[2:52:13 AM] NEAR: no setup
+[2:52:12 AM] VVV: LONG score 3.70 (3/8 TFs aligned)
+[2:52:11 AM] kPEPE: LONG score 6.70 (7/8 TFs aligned)
+[2:52:10 AM] PUMP: LONG score 5.45 (4/8 TFs aligned)
+[2:52:09 AM] TAO: LONG score 4.70 (7/8 TFs aligned)
+[2:52:08 AM] XRP: SHORT score 3.75 (6/8 TFs aligned)
+[2:52:07 AM] JTO: no setup
+[2:52:06 AM] DOGE: no setup
+[2:52:04 AM] ZEC: no setup
+[2:52:04 AM] HYPE: LONG score 3.75 (4/8 TFs aligned)
+[2:52:03 AM] TON: no setup
+[2:52:00 AM] SOL: LONG score 3.95 (6/8 TFs aligned)
+[2:52:00 AM] ETH: SHORT score 3.25 (4/8 TFs aligned)
+[2:51:59 AM] BTC: LONG score 5.50 (5/8 TFs aligned)</div>
+      <div class="disclaimer">
+        <b>SMC honesty notes:</b> "Order Block" and "Breaker Block" have no canonical definition in published literature. This scanner uses the operational rules in the README at the bottom of the source. The empirical edge of SMC concepts is contested — many overlap with classical support/resistance and value-area logic. Treat scores as a structured way to surface confluence, not as predictive probabilities. Backtest before risking capital.
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// SMC SCANNER — Hyperliquid perps, 8-timeframe confluence scoring
+//
+// SMC primitive definitions used here (one of several valid choices):
+//   - Bullish Order Block: last bearish candle before impulse up that
+//     covers ≥ 1.5× ATR within next 3 candles AND breaks OB.high.
+//   - Bearish Order Block: mirror.
+//   - Breaker Block: OB whose far side has been violated (close beyond).
+//     A failed bullish OB becomes a bearish breaker, and vice versa.
+//   - Retest: price re-enters zone in [OB.low, OB.high].
+//   - Fresh break of key level: current close on opposite side of the
+//     level vs at least one of last 5 closes.
+//   - Anchored VWAP: typical price * volume cumulative, anchored at
+//     the start of the current week / current month.
+//
+// Native HL intervals: 15m,30m,1h,2h,4h,1d,3d. 2d is RESAMPLED from 1d
+// (every 2 daily candles aggregated open=first.o, close=second.c,
+// high=max, low=min, volume=sum).
+// ═══════════════════════════════════════════════════════════════════
+
+const HL_API = "https://api.hyperliquid.xyz/info";
+const FALLBACK = ["BTC","ETH","SOL","HYPE","XRP","DOGE","BNB","ADA","AVAX","LINK","TRX","SUI","TON","DOT","BCH","NEAR","LTC","UNI","APT","ICP","ETC","FIL","ARB","OP","INJ","STX","ATOM","AAVE","HBAR","RENDER","SEI","WLD","JUP","TIA","ORDI","AR","kPEPE","kBONK","kSHIB","kFLOKI"];
+const TIMEFRAMES = ["15m","30m","1h","2h","4h","1d","2d","3d"];
+const TF_MS = {"15m":900000,"30m":1800000,"1h":3600000,"2h":7200000,"4h":14400000,"1d":86400000,"3d":259200000};
+// Per-TF candle counts (need extra for EMA200 + structural lookback)
+const TF_FETCH = {"15m":600,"30m":500,"1h":400,"2h":350,"4h":300,"1d":250,"3d":150};
+
+let selected = null, results = [], logs = [], scanned = 0;
+const $ = id => document.getElementById(id);
+const fmt = n => !Number.isFinite(n) ? "-" : n>=1000 ? n.toLocaleString(undefined,{maximumFractionDigits:2}) : n>=1 ? n.toFixed(4) : n.toFixed(7);
+function log(x){logs.unshift(`[${new Date().toLocaleTimeString()}] ${x}`);logs=logs.slice(0,80);$("logs").textContent=logs.join("\n")}
+function status(x){$("status").innerHTML=x}
+function setProgress(done,total){$("bar").style.width=(total?Math.round(done/total*100):0)+"%";$("scanned").textContent=done;updateCounts()}
+function updateCounts(){const L=results.filter(r=>r.signal==="LONG").length,S=results.filter(r=>r.signal==="SHORT").length;$("qualified").textContent=results.length;$("longs").textContent=L;$("shorts").textContent=S}
+
+// ─── Hyperliquid API ───────────────────────────────────────────────
+async function postInfo(payload){
+  const r = await fetch(HL_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store"});
+  if(!r.ok) throw new Error(r.status+" "+r.statusText);
+  return r.json();
+}
+
+async function getUniverse(){
+  try{
+    const r = await postInfo({type:"metaAndAssetCtxs"});
+    const universe = r[0]?.universe || [], ctxs = r[1] || [];
+    const enriched = universe.map((u,i)=>({name:u.name,vol:+(ctxs[i]?.dayNtlVlm||0)}))
+      .filter(x => x.name && !x.name.includes(":"))
+      .sort((a,b) => b.vol - a.vol)
+      .slice(0, +$("universe").value)
+      .map(x => x.name);
+    if(enriched.length) return enriched;
+    throw new Error("empty universe");
+  }catch(e){
+    log("getUniverse fallback ("+e.message+")");
+    return FALLBACK.slice(0, +$("universe").value);
+  }
+}
+
+async function fetchCandles(coin, interval, limit){
+  // 2d is resampled from 1d
+  if(interval === "2d"){
+    const daily = await fetchCandles(coin, "1d", (limit*2)+2);
+    return resample2d(daily);
+  }
+  const intervalMs = TF_MS[interval];
+  if(!intervalMs) throw new Error("unsupported interval: "+interval);
+  const endTime = Date.now();
+  const startTime = endTime - intervalMs * (limit + 2);
+  const raw = await postInfo({type:"candleSnapshot",req:{coin,interval,startTime,endTime}});
+  if(!Array.isArray(raw)) throw new Error("bad candle response");
+  return raw.map(k => ({
+    time: +k.t,
+    open: +k.o, high: +k.h, low: +k.l, close: +k.c, volume: +k.v
+  })).filter(c => Number.isFinite(c.close));
+}
+
+function resample2d(daily){
+  // Aggregate every 2 daily candles into a 2-day candle.
+  // Anchor: even-indexed UTC days pair with the next.
+  const out = [];
+  for(let i=0; i<daily.length-1; i+=2){
+    const a = daily[i], b = daily[i+1];
+    out.push({
+      time: a.time,
+      open: a.open,
+      close: b.close,
+      high: Math.max(a.high, b.high),
+      low: Math.min(a.low, b.low),
+      volume: a.volume + b.volume
+    });
+  }
+  return out;
+}
+
+// ─── Indicators ─────────────────────────────────────────────────────
+function ema(values, period){
+  const k = 2 / (period + 1);
+  let e = values[0];
+  return values.map(v => { e = v*k + e*(1-k); return e; });
+}
+function sma(arr){return arr.reduce((a,b)=>a+b,0)/Math.max(1,arr.length)}
+function atr(candles, period=14){
+  if(candles.length < 2) return 0;
+  const trs = [];
+  for(let i=1;i<candles.length;i++){
+    trs.push(Math.max(
+      candles[i].high - candles[i].low,
+      Math.abs(candles[i].high - candles[i-1].close),
+      Math.abs(candles[i].low  - candles[i-1].close)
+    ));
+  }
+  return sma(trs.slice(-period));
+}
+
+// Anchored VWAP from a starting timestamp (ms)
+function anchoredVwap(candles, anchorMs){
+  let pv = 0, vv = 0;
+  for(const c of candles){
+    if(c.time < anchorMs) continue;
+    const tp = (c.high + c.low + c.close) / 3;
+    pv += tp * c.volume;
+    vv += c.volume;
+  }
+  return vv > 0 ? pv / vv : null;
+}
+
+// Get start-of-week (Monday 00:00 UTC) in ms for the most recent week
+function weekStartMs(now){
+  const d = new Date(now);
+  const dow = d.getUTCDay(); // 0=Sun, 1=Mon
+  const back = (dow + 6) % 7; // days since Monday
+  d.setUTCHours(0,0,0,0);
+  d.setUTCDate(d.getUTCDate() - back);
+  return d.getTime();
+}
+function monthStartMs(now){
+  const d = new Date(now);
+  d.setUTCHours(0,0,0,0);
+  d.setUTCDate(1);
+  return d.getTime();
+}
+
+// First candle's open of current week / month (works on any TF if granularity ≤ that period)
+function firstCandleAtOrAfter(candles, anchorMs){
+  for(const c of candles){
+    if(c.time >= anchorMs) return c;
+  }
+  return null;
+}
+
+// ─── SMC Primitives ────────────────────────────────────────────────
+// Find Order Blocks. Returns array of {idx, type:'bull'|'bear', high, low, close, broken, brokenAt}
+function findOrderBlocks(candles, atrV, lookback=120){
+  if(candles.length < 10 || !atrV) return [];
+  const obs = [];
+  const start = Math.max(1, candles.length - lookback);
+  const minImpulse = atrV * 1.5;
+
+  for(let i = start; i < candles.length - 4; i++){
+    const c = candles[i];
+    const isBear = c.close < c.open;
+    const isBull = c.close > c.open;
+
+    // Check next 1-3 candles for impulse
+    let impulseUp = false, impulseDown = false;
+    let breakHigh = false, breakLow = false;
+    for(let j = i+1; j <= Math.min(i+3, candles.length-1); j++){
+      const move = candles[j].close - c.close;
+      if(move >= minImpulse) impulseUp = true;
+      if(-move >= minImpulse) impulseDown = true;
+      if(candles[j].high > c.high) breakHigh = true;
+      if(candles[j].low  < c.low ) breakLow  = true;
+    }
+
+    // Bullish OB: bearish candle followed by impulse up + break of OB high
+    if(isBear && impulseUp && breakHigh){
+      obs.push({idx:i, type:'bull', high:c.high, low:c.low, time:c.time, broken:false, brokenAt:null, retested:false});
+    }
+    // Bearish OB: bullish candle followed by impulse down + break of OB low
+    if(isBull && impulseDown && breakLow){
+      obs.push({idx:i, type:'bear', high:c.high, low:c.low, time:c.time, broken:false, brokenAt:null, retested:false});
+    }
+  }
+
+  // Mark broken / retested
+  for(const ob of obs){
+    for(let k = ob.idx + 1; k < candles.length; k++){
+      // For bull OB: broken if a candle CLOSES below ob.low
+      if(ob.type === 'bull' && candles[k].close < ob.low && !ob.broken){
+        ob.broken = true; ob.brokenAt = k;
+      }
+      if(ob.type === 'bear' && candles[k].close > ob.high && !ob.broken){
+        ob.broken = true; ob.brokenAt = k;
+      }
+      // Retest: candle wicks back into zone (without breaking through)
+      if(!ob.broken && candles[k].low <= ob.high && candles[k].high >= ob.low){
+        ob.retested = true;
+      }
+    }
+  }
+  return obs;
+}
+
+// Breaker blocks = broken OBs. They flip polarity and become S/R from the OTHER side.
+function findBreakers(obs){
+  return obs.filter(ob => ob.broken).map(ob => ({
+    ...ob,
+    breakerType: ob.type === 'bull' ? 'bear' : 'bull',  // flipped
+  }));
+}
+
+// Fair Value Gap: 3-candle pattern where candle[1].body+wick has gap relative to candles[0] and [2]
+// Bullish FVG: candles[2].low > candles[0].high (gap up). Bearish FVG: candles[2].high < candles[0].low.
+function findFVGs(candles, lookback=50){
+  const fvgs = [];
+  const start = Math.max(2, candles.length - lookback);
+  for(let i=start; i<candles.length; i++){
+    const a = candles[i-2], b = candles[i-1], c = candles[i];
+    if(c.low > a.high){
+      fvgs.push({idx:i-1, type:'bull', high:c.low, low:a.high, time:b.time});
+    } else if(c.high < a.low){
+      fvgs.push({idx:i-1, type:'bear', high:a.low, low:c.high, time:b.time});
+    }
+  }
+  return fvgs;
+}
+
+// ─── Key-level fresh break detection ───────────────────────────────
+function freshBreak(candles, level, lookback=5){
+  if(!Number.isFinite(level) || candles.length < lookback+1) return null;
+  const last = candles.at(-1);
+  const recent = candles.slice(-lookback-1, -1);
+  const lastAbove = last.close > level;
+  const anyOpposite = recent.some(c => lastAbove ? c.close < level : c.close > level);
+  if(!anyOpposite) return null;
+  return lastAbove ? 'up' : 'down';
+}
+
+// ─── Per-timeframe analysis ────────────────────────────────────────
+function analyzeOneTf(candles, weeklyCandles, monthlyCandles){
+  if(!candles || candles.length < 60) return null;
+  const last = candles.at(-1);
+  const a = atr(candles, 14);
+  if(!a || a <= 0) return null;
+
+  const closes = candles.map(c => c.close);
+  const e21  = ema(closes, 21).at(-1);
+  const e50  = ema(closes, 50).at(-1);
+  const e200 = closes.length >= 200 ? ema(closes, 200).at(-1) : null;
+
+  // Anchored VWAPs and opens — these need higher-resolution candles to accumulate volume
+  // Use the candles array we have; for daily TF using daily candles gives weekly/monthly VWAP
+  // accumulated daily, which is fine for level approximation.
+  const wAnchor = weekStartMs(last.time);
+  const mAnchor = monthStartMs(last.time);
+  const wVwap = anchoredVwap(candles, wAnchor);
+  const mVwap = anchoredVwap(candles, mAnchor);
+  const wFirst = firstCandleAtOrAfter(candles, wAnchor);
+  const mFirst = firstCandleAtOrAfter(candles, mAnchor);
+  const wOpen = wFirst ? wFirst.open : null;
+  const mOpen = mFirst ? mFirst.open : null;
+
+  // SMC structures
+  const obs = findOrderBlocks(candles, a, 120);
+  const breakers = findBreakers(obs);
+  const fvgs = findFVGs(candles, 60);
+
+  // Active OBs near current price (within 0.5 ATR of zone edges)
+  const tol = a * 0.5;
+  const activeOb = obs.filter(o => !o.broken).map(o => {
+    const inZone = last.close >= o.low - tol && last.close <= o.high + tol;
+    return inZone ? o : null;
+  }).filter(Boolean);
+  const activeBreaker = breakers.map(b => {
+    const inZone = last.close >= b.low - tol && last.close <= b.high + tol;
+    return inZone ? b : null;
+  }).filter(Boolean);
+
+  // Was there an OB retest in the last 5 candles, and is current candle rejecting (closing back outside the zone)?
+  function recentlyRetestedAndRejecting(type){
+    for(const o of obs){
+      if(o.broken) continue;
+      if(o.type !== type) continue;
+      // Last 5 candles touched this zone?
+      const recent = candles.slice(-5);
+      const touched = recent.some(c => c.low <= o.high && c.high >= o.low);
+      if(!touched) continue;
+      // Now closing back outside on the favorable side?
+      if(type === 'bull' && last.close > o.high) return o;
+      if(type === 'bear' && last.close < o.low ) return o;
+    }
+    return null;
+  }
+  const bullObRetest = recentlyRetestedAndRejecting('bull');
+  const bearObRetest = recentlyRetestedAndRejecting('bear');
+
+  // Breaker break: did price just close through a breaker zone in the favorable direction?
+  function recentBreakerBreak(breakerType){
+    for(const b of breakers){
+      if(b.breakerType !== breakerType) continue;
+      // Recent close beyond breaker's far edge?
+      const recent = candles.slice(-3);
+      if(breakerType === 'bull' && recent.some(c => c.close > b.high)) {
+        return b;
+      }
+      if(breakerType === 'bear' && recent.some(c => c.close < b.low)) {
+        return b;
+      }
+    }
+    return null;
+  }
+  const bullBreakerBreak = recentBreakerBreak('bull');
+  const bearBreakerBreak = recentBreakerBreak('bear');
+
+  // Recent FVG nearby (within 1 ATR)
+  const nearBullFvg = fvgs.find(f => f.type === 'bull' && Math.abs(f.high - last.close) < a);
+  const nearBearFvg = fvgs.find(f => f.type === 'bear' && Math.abs(f.low  - last.close) < a);
+
+  // Key-level fresh breaks
+  const breaks = {
+    e21:   freshBreak(candles, e21,  5),
+    e50:   freshBreak(candles, e50,  5),
+    e200:  e200 ? freshBreak(candles, e200, 5) : null,
+    wVwap: wVwap ? freshBreak(candles, wVwap, 5) : null,
+    mVwap: mVwap ? freshBreak(candles, mVwap, 5) : null,
+    wOpen: wOpen ? freshBreak(candles, wOpen, 5) : null,
+    mOpen: mOpen ? freshBreak(candles, mOpen, 5) : null,
+  };
+
+  // ─── Score ────────────────────────────────────────────────────────
+  let bull = 0, bear = 0;
+  const bullFactors = [], bearFactors = [];
+
+  if(bullObRetest)      { bull += 2.0; bullFactors.push("OB retest holding"); }
+  if(bearObRetest)      { bear += 2.0; bearFactors.push("OB retest holding"); }
+  if(bullBreakerBreak)  { bull += 1.5; bullFactors.push("Bullish breaker breakout"); }
+  if(bearBreakerBreak)  { bear += 1.5; bearFactors.push("Bearish breaker breakdown"); }
+
+  const keyLevelDefs = [
+    ["e21", "EMA21"], ["e50", "EMA50"], ["e200", "EMA200"],
+    ["wVwap", "Weekly VWAP"], ["mVwap", "Monthly VWAP"],
+    ["wOpen", "Weekly Open"], ["mOpen", "Monthly Open"],
+  ];
+  for(const [k,label] of keyLevelDefs){
+    if(breaks[k] === 'up'  ){ bull += 0.5; bullFactors.push("↑ "+label); }
+    if(breaks[k] === 'down'){ bear += 0.5; bearFactors.push("↓ "+label); }
+  }
+
+  if(nearBullFvg){ bull += 0.5; bullFactors.push("Bullish FVG nearby"); }
+  if(nearBearFvg){ bear += 0.5; bearFactors.push("Bearish FVG nearby"); }
+
+  // EMA stack alignment (independent of fresh break)
+  if(e200 && e21 > e50 && e50 > e200 && last.close > e21){ bull += 0.7; bullFactors.push("EMA stack bullish"); }
+  if(e200 && e21 < e50 && e50 < e200 && last.close < e21){ bear += 0.7; bearFactors.push("EMA stack bearish"); }
+
+  // Reduce penalty for stale signals: if neither retest nor break, knock score to favor
+  // confluence over isolated factors
+  if(!bullObRetest && !bullBreakerBreak) bull *= 0.85;
+  if(!bearObRetest && !bearBreakerBreak) bear *= 0.85;
+
+  let signal = "WAIT", factors = [], side = null;
+  if(bull >= 2.5 && bull > bear + 0.6){ signal = "LONG"; factors = bullFactors; side='bull'; }
+  else if(bear >= 2.5 && bear > bull + 0.6){ signal = "SHORT"; factors = bearFactors; side='bear'; }
+
+  return {
+    signal, side, score: Math.max(bull, bear),
+    bull, bear,
+    factors,
+    last, atr: a,
+    levels: {e21, e50, e200, wVwap, mVwap, wOpen, mOpen},
+    breaks,
+    bullObRetest, bearObRetest,
+    bullBreakerBreak, bearBreakerBreak,
+    nearBullFvg, nearBearFvg,
+    obsCount: obs.length, breakersCount: breakers.length,
+  };
+}
+
+// ─── Multi-TF aggregation + entry/SL/TP suggestion ─────────────────
+async function analyzeSymbol(coin){
+  // Fetch all timeframes in parallel
+  const tfData = {};
+  await Promise.all(TIMEFRAMES.map(async tf => {
+    try{
+      const candles = await fetchCandles(coin, tf, TF_FETCH[tf] || 200);
+      tfData[tf] = candles;
+    }catch(e){
+      tfData[tf] = null;
+    }
+  }));
+
+  // Per-TF analysis
+  const perTf = {};
+  for(const tf of TIMEFRAMES){
+    perTf[tf] = analyzeOneTf(tfData[tf]);
+  }
+
+  // Primary TF determines display signal
+  const primaryTf = $("primaryTf").value;
+  const primary = perTf[primaryTf];
+  if(!primary || primary.signal === "WAIT") return {coin, perTf, primary, primaryTf, qualified: false};
+
+  // Cross-TF alignment bonus
+  let alignBoost = 0;
+  for(const tf of TIMEFRAMES){
+    if(tf === primaryTf) continue;
+    if(!perTf[tf]) continue;
+    if(perTf[tf].signal === primary.signal) alignBoost += 0.25;
+  }
+  const finalScore = primary.score + alignBoost;
+
+  // Entry / SL / TP from primary TF
+  const last = primary.last;
+  const atrV = primary.atr;
+  let entry = last.close, sl, tp;
+  if(primary.signal === "LONG"){
+    // SL: below the OB low if we have one, else below recent swing low, else 1.5 ATR
+    if(primary.bullObRetest) sl = primary.bullObRetest.low - atrV * 0.2;
+    else if(primary.bullBreakerBreak) sl = primary.bullBreakerBreak.low - atrV * 0.2;
+    else sl = entry - atrV * 1.5;
+    const risk = entry - sl;
+    tp = entry + risk * 2.2;
+  } else {
+    if(primary.bearObRetest) sl = primary.bearObRetest.high + atrV * 0.2;
+    else if(primary.bearBreakerBreak) sl = primary.bearBreakerBreak.high + atrV * 0.2;
+    else sl = entry + atrV * 1.5;
+    const risk = sl - entry;
+    tp = entry - risk * 2.2;
+  }
+
+  return {
+    coin, perTf, primary, primaryTf, qualified: true,
+    signal: primary.signal,
+    score: finalScore,
+    alignBoost,
+    entry, sl, tp,
+    factors: primary.factors,
+  };
+}
+
+// ─── Scan loop ─────────────────────────────────────────────────────
+async function scan(){
+  $("scan").disabled = true;
+  logs = []; results = []; selected = null; scanned = 0;
+  renderPairs(); clearDetails();
+
+  const minScore = +$("minScore").value;
+  const universe = await getUniverse();
+  status(`Scanning ${universe.length} Hyperliquid coins on ${TIMEFRAMES.length} timeframes. Threshold: ${minScore}.`);
+  setProgress(0, universe.length);
+
+  // Concurrency 3 — each symbol fetches 8 TFs, so total RPS is high
+  const concurrency = 3;
+  let idx = 0;
+  async function worker(){
+    while(idx < universe.length){
+      const coin = universe[idx++];
+      try{
+        const r = await analyzeSymbol(coin);
+        scanned++;
+        if(r.qualified && r.score >= minScore){
+          results.push(r);
+          results.sort((a,b) => b.score - a.score);
+          if(!selected) selected = results[0].coin;
+          renderPairs();
+          renderDetail(results.find(x => x.coin === selected) || results[0]);
+          log(`${coin}: ${r.signal} score ${r.score.toFixed(2)} (${TIMEFRAMES.filter(t=>r.perTf[t]?.signal===r.signal).length}/${TIMEFRAMES.length} TFs aligned)`);
+        } else {
+          log(`${coin}: ${r.qualified ? `${r.signal} below threshold (${r.score.toFixed(2)})` : 'no setup'}`);
+        }
+        setProgress(scanned, universe.length);
+      } catch(e){
+        scanned++;
+        log(`${coin}: error ${e.message}`);
+        setProgress(scanned, universe.length);
+      }
+    }
+  }
+  await Promise.all(Array.from({length: concurrency}, worker));
+  status(`Completed. Qualified: <b>${results.length}</b> / ${universe.length}.`);
+  if(!results.length) clearDetails("No SMC confluence found at this threshold. Try lowering the score floor.");
+  $("scan").disabled = false;
+}
+
+// ─── Render ────────────────────────────────────────────────────────
+function renderPairs(){
+  if(!results.length){
+    $("pairs").innerHTML = `<div class="empty">No SMC setups displayed yet. Scan the market to surface confluence.</div>`;
+    updateCounts();
+    return;
+  }
+  $("pairs").innerHTML = results.map(r => {
+    const scoreClass = r.score >= 5 ? "scoreA" : r.score >= 4 ? "scoreB" : "scoreC";
+    const tfgrid = TIMEFRAMES.map(tf => {
+      const p = r.perTf[tf];
+      if(!p || !p.signal || p.signal === 'WAIT') return `<div class="tfcell neutral">·</div>`;
+      const cls = p.signal === 'LONG' ? 'long' : 'short';
+      const tag = p.signal === 'LONG' ? 'L' : 'S';
+      return `<div class="tfcell ${cls}" title="${tf}: ${p.signal} ${p.score.toFixed(1)}">${tag}</div>`;
+    }).join("");
+    const tflabels = TIMEFRAMES.map(tf => `<div class="tflabel">${tf}</div>`).join("");
+    return `<div class="pair ${r.coin === selected ? 'active' : ''}" onclick="choose('${r.coin}')">
+      <div class="pairTop">
+        <div><div class="sym">${r.coin}</div><div class="px">${fmt(r.entry)} · ${r.primaryTf} primary</div></div>
+        <div><div class="badge ${r.signal}">${r.signal}</div><div class="scoreBadge ${scoreClass}">${r.score.toFixed(2)}</div></div>
+      </div>
+      <div class="tfgrid">${tfgrid}</div>
+      <div class="tfgrid" style="margin-top:1px">${tflabels}</div>
+    </div>`;
+  }).join("");
+  updateCounts();
+}
+
+window.choose = c => { selected = c; renderPairs(); renderDetail(results.find(r => r.coin === c)); };
+
+function clearDetails(msg = "Scan market to show SMC setups."){
+  $("sig").textContent = "WAIT"; $("sig").className = "big yellow";
+  $("why").textContent = msg;
+  $("playbook").textContent = "Only setups passing the score threshold on the primary TF will be listed.";
+  $("qscore").textContent = "-"; $("entry").textContent = "-"; $("sl").textContent = "-"; $("tp").textContent = "-";
+  $("factors-body").innerHTML = `<tr><td colspan="3" style="color:var(--muted);text-align:center;padding:20px">No setup selected</td></tr>`;
+  $("tf-breakdown").innerHTML = `<div style="color:var(--muted);text-align:center;padding:20px;font-size:12px">Per-TF detail appears here once a setup is selected</div>`;
+}
+
+function renderDetail(r){
+  if(!r) return;
+  const cls = r.signal === 'LONG' ? 'green' : 'red';
+  $("sig").textContent = r.signal; $("sig").className = "big " + cls;
+  $("why").innerHTML = `<b>${r.coin}</b> on <b>${r.primaryTf}</b> — ${r.factors.slice(0,5).join(" · ")}`;
+
+  const aligned = TIMEFRAMES.filter(t => r.perTf[t]?.signal === r.signal).length;
+  $("playbook").innerHTML = `${r.signal} setup on ${r.primaryTf} with <b>${aligned}/${TIMEFRAMES.length}</b> timeframes aligned. Cross-TF boost: +${r.alignBoost.toFixed(2)}. Wait for current candle to confirm continuation past the entry. Honor the invalidation level — do not move it.`;
+  $("qscore").textContent = r.score.toFixed(2);
+  $("entry").textContent = fmt(r.entry);
+  $("sl").textContent = fmt(r.sl);
+  $("tp").textContent = fmt(r.tp);
+
+  // Factors table — primary TF only
+  const factorRows = [];
+  const p = r.primary;
+  if(p.bullObRetest) factorRows.push(["Order Block", `Bull retest @ ${fmt(p.bullObRetest.low)}-${fmt(p.bullObRetest.high)}`, "+2.0", "green"]);
+  if(p.bearObRetest) factorRows.push(["Order Block", `Bear retest @ ${fmt(p.bearObRetest.low)}-${fmt(p.bearObRetest.high)}`, "+2.0", "red"]);
+  if(p.bullBreakerBreak) factorRows.push(["Breaker", `Bullish break of ${fmt(p.bullBreakerBreak.high)}`, "+1.5", "green"]);
+  if(p.bearBreakerBreak) factorRows.push(["Breaker", `Bearish break of ${fmt(p.bearBreakerBreak.low)}`, "+1.5", "red"]);
+  const lvlMap = [["e21","EMA21"],["e50","EMA50"],["e200","EMA200"],["wVwap","Weekly VWAP"],["mVwap","Monthly VWAP"],["wOpen","Weekly Open"],["mOpen","Monthly Open"]];
+  for(const [k,label] of lvlMap){
+    const dir = p.breaks[k];
+    const lvl = p.levels[k];
+    if(dir === 'up'  ) factorRows.push([label, `${fmt(lvl)} broken upward`,   "+0.5", "green"]);
+    if(dir === 'down') factorRows.push([label, `${fmt(lvl)} broken downward`, "+0.5", "red"]);
+  }
+  if(p.nearBullFvg) factorRows.push(["FVG", `Bullish gap @ ${fmt(p.nearBullFvg.low)}-${fmt(p.nearBullFvg.high)}`, "+0.5", "green"]);
+  if(p.nearBearFvg) factorRows.push(["FVG", `Bearish gap @ ${fmt(p.nearBearFvg.low)}-${fmt(p.nearBearFvg.high)}`, "+0.5", "red"]);
+  if(p.levels.e200 && p.levels.e21 > p.levels.e50 && p.levels.e50 > p.levels.e200 && p.last.close > p.levels.e21)
+    factorRows.push(["EMA Stack", "21 > 50 > 200, price above 21", "+0.7", "green"]);
+  if(p.levels.e200 && p.levels.e21 < p.levels.e50 && p.levels.e50 < p.levels.e200 && p.last.close < p.levels.e21)
+    factorRows.push(["EMA Stack", "21 < 50 < 200, price below 21", "+0.7", "red"]);
+
+  $("factors-body").innerHTML = factorRows.length
+    ? factorRows.map(row => `<tr><td><span class="pill ${row[3]}">${row[0]}</span></td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join("")
+    : `<tr><td colspan="3" style="color:var(--muted);text-align:center;padding:20px">No active factors on primary TF</td></tr>`;
+
+  // Multi-TF breakdown
+  $("tf-breakdown").innerHTML = TIMEFRAMES.map(tf => {
+    const tfa = r.perTf[tf];
+    if(!tfa){
+      return `<div class="tfrow"><div class="tf">${tf}</div><div style="color:var(--muted);font-size:11px">no data</div></div>`;
+    }
+    const sigCls = tfa.signal === 'LONG' ? 'bull' : tfa.signal === 'SHORT' ? 'bear' : '';
+    const factors = tfa.factors.slice(0, 4).map(f => `<span class="factor ${sigCls}">${f}</span>`).join("");
+    return `<div class="tfrow">
+      <div class="tf">${tf}</div>
+      <div class="factors">
+        <span class="factor ${sigCls}">${tfa.signal} ${tfa.score.toFixed(1)}</span>
+        ${factors || (tfa.signal==='WAIT'?'<span class="factor">no setup</span>':'')}
+      </div>
+    </div>`;
+  }).join("");
+}
+
+$("scan").onclick = scan;
+$("universe").onchange = () => { results = []; selected = null; renderPairs(); clearDetails("Universe changed. Click Scan."); setProgress(0,0); };
+$("minScore").onchange = () => { results = []; selected = null; renderPairs(); clearDetails("Threshold changed. Click Scan."); setProgress(0,0); };
+$("primaryTf").onchange = () => { results = []; selected = null; renderPairs(); clearDetails("Primary TF changed. Click Scan."); setProgress(0,0); };
+clearDetails();
+</script>
+
+</body></html>

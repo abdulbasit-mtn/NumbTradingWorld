@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)file:///C:/Users/XI/Downloads/Snipper-code-1778021788908.html -->
+<html lang="en-GB"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMC Scalping Auto-Scanner</title>
+    <script src="./Strategy 1 (Liquidity Scanner)_files/saved_resource"></script>
+    <style>
+        body { background-color: #0d1117; color: #c9d1d9; }
+        .panel { background-color: #161b22; border: 1px solid #30363d; }
+        .loader { border-top-color: #ef4444; animation: spinner 1.5s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Custom scrollbar for table */
+        ::-webkit-scrollbar { height: 8px; width: 8px; }
+        ::-webkit-scrollbar-track { background: #0d1117; }
+        ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.sticky{position:sticky}.top-0{top:0px}.z-10{z-index:10}.mb-6{margin-bottom:1.5rem}.mt-1{margin-top:0.25rem}.ml-1{margin-left:0.25rem}.flex{display:flex}.inline-flex{display:inline-flex}.h-3{height:0.75rem}.h-screen{height:100vh}.h-4{height:1rem}.w-3{width:0.75rem}.w-full{width:100%}.w-4{width:1rem}.w-48{width:12rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}@keyframes ping{75%, 100%{transform:scale(2);opacity:0}}.animate-ping{animation:ping 1s cubic-bezier(0, 0, 0.2, 1) infinite}.cursor-not-allowed{cursor:not-allowed}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-4{gap:1rem}.gap-1{gap:0.25rem}.divide-y > :not([hidden]) ~ :not([hidden]){--tw-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--tw-divide-y-reverse)));border-bottom-width:calc(1px * var(--tw-divide-y-reverse))}.divide-gray-800 > :not([hidden]) ~ :not([hidden]){--tw-divide-opacity:1;border-color:rgb(31 41 55 / var(--tw-divide-opacity, 1))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.whitespace-normal{white-space:normal}.whitespace-nowrap{white-space:nowrap}.break-words{overflow-wrap:break-word}.rounded{border-radius:0.25rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-l-4{border-left-width:4px}.border-gray-700{--tw-border-opacity:1;border-color:rgb(55 65 81 / var(--tw-border-opacity, 1))}.border-gray-400{--tw-border-opacity:1;border-color:rgb(156 163 175 / var(--tw-border-opacity, 1))}.border-red-500{--tw-border-opacity:1;border-color:rgb(239 68 68 / var(--tw-border-opacity, 1))}.border-green-500{--tw-border-opacity:1;border-color:rgb(34 197 94 / var(--tw-border-opacity, 1))}.border-t-red-500{--tw-border-opacity:1;border-top-color:rgb(239 68 68 / var(--tw-border-opacity, 1))}.bg-gray-600{--tw-bg-opacity:1;background-color:rgb(75 85 99 / var(--tw-bg-opacity, 1))}.bg-gray-800{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity, 1))}.bg-gray-900{--tw-bg-opacity:1;background-color:rgb(17 24 39 / var(--tw-bg-opacity, 1))}.bg-red-600{--tw-bg-opacity:1;background-color:rgb(220 38 38 / var(--tw-bg-opacity, 1))}.bg-transparent{background-color:transparent}.bg-red-500{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity, 1))}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-red-500\/10{background-color:rgb(239 68 68 / 0.1)}.bg-green-500\/10{background-color:rgb(34 197 94 / 0.1)}.p-1{padding:0.25rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-4{padding-left:1rem;padding-right:1rem}.text-left{text-align:left}.text-right{text-align:right}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.font-sans{font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"}.text-2xl{font-size:1.5rem;line-height:2rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-base{font-size:1rem;line-height:1.5rem}.font-bold{font-weight:700}.font-semibold{font-weight:600}.font-black{font-weight:900}.uppercase{text-transform:uppercase}.tracking-wide{letter-spacing:0.025em}.tracking-wider{letter-spacing:0.05em}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-red-500{--tw-text-opacity:1;color:rgb(239 68 68 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-blue-400{--tw-text-opacity:1;color:rgb(96 165 250 / var(--tw-text-opacity, 1))}.text-gray-300{--tw-text-opacity:1;color:rgb(209 213 219 / var(--tw-text-opacity, 1))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-green-400{--tw-text-opacity:1;color:rgb(74 222 128 / var(--tw-text-opacity, 1))}.text-red-400{--tw-text-opacity:1;color:rgb(248 113 113 / var(--tw-text-opacity, 1))}.text-green-500{--tw-text-opacity:1;color:rgb(34 197 94 / var(--tw-text-opacity, 1))}.opacity-50{opacity:0.5}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-red-900\/50{--tw-shadow-color:rgb(127 29 29 / 0.5);--tw-shadow:var(--tw-shadow-colored)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-red-500:hover{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity, 1))}.hover\:bg-blue-500:hover{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity, 1))}.hover\:bg-gray-800:hover{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}@media (min-width: 768px){.md\:flex-row{flex-direction:row}.md\:items-center{align-items:center}.md\:p-8{padding:2rem}}</style></head>
+<body class="p-4 md:p-8 font-sans flex flex-col h-screen">
+
+    <header class="panel flex flex-col md:flex-row justify-between items-start md:items-center p-6 mb-6 rounded-lg shadow-lg gap-4 shrink-0">
+        <div>
+            <h1 class="text-2xl font-bold text-white tracking-wide">LiquidityFlow<span class="text-red-500">.SniperScan</span></h1>
+            <p class="text-sm text-gray-400 mt-1">Hunting Liquidity Sweeps &amp; FVGs with strict 1:3 R/R</p>
+        </div>
+        
+        <div class="flex flex-wrap gap-4 items-center">
+            <div class="bg-gray-800 p-1 rounded flex items-center border border-gray-700">
+                <label class="text-xs text-gray-400 px-2 uppercase font-bold tracking-wider">Scan Scope:</label>
+                <select id="scanLimit" class="bg-transparent text-white text-sm focus:outline-none p-1 font-mono">
+                    <option value="20">Top 20</option>
+                    <option value="50" selected="">Top 50</option>
+                    <option value="100">Top 100</option>
+                </select>
+            </div>
+
+            <div class="bg-gray-800 p-1 rounded flex items-center border border-gray-700">
+                <label class="text-xs text-gray-400 px-2 uppercase font-bold tracking-wider">Timeframe:</label>
+                <select id="timeframeSelect" class="bg-transparent text-white text-sm focus:outline-none p-1 font-mono">
+                    <option value="5m" selected="">5 Min</option>
+                    <option value="15m">15 Min</option>
+                </select>
+            </div>
+
+            <button id="startScanBtn" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-6 rounded transition shadow-lg shadow-red-900/50">
+                Start Hunt
+            </button>
+        </div>
+    </header>
+
+    <div class="panel rounded-lg shadow-lg flex-1 flex flex-col overflow-hidden">
+        <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-gray-900">
+            <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+                <span id="pulseIndicator" class="w-3 h-3 rounded-full bg-gray-600"></span>
+                Active Targets
+            </h2>
+            <div id="scanStatus" class="text-sm font-mono text-gray-400"><span class="text-green-400 font-bold">Hunt Complete. Found 5 setups.</span></div>
+        </div>
+
+        <div class="overflow-x-auto flex-1">
+            <table class="w-full text-left text-sm font-mono whitespace-nowrap">
+                <thead class="text-xs text-gray-400 uppercase bg-gray-800 sticky top-0 z-10">
+                    <tr>
+                        <th class="px-6 py-4 border-b border-gray-700">Asset</th>
+                        <th class="px-6 py-4 border-b border-gray-700">Direction</th>
+                        <th class="px-6 py-4 border-b border-gray-700">Trigger Context</th>
+                        <th class="px-6 py-4 border-b border-gray-700">Execution (Ent / TP / SL)</th>
+                        <th class="px-6 py-4 border-b border-gray-700">R/R</th>
+                        <th class="px-6 py-4 border-b border-gray-700 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTable" class="divide-y divide-gray-800"><tr class="hover:bg-gray-800 transition bg-red-500/10 border-l-4 border-red-500">
+                <td class="px-6 py-4 font-bold text-white text-base">SAHARA<span class="text-xs text-gray-500 ml-1">/USDT</span></td>
+                <td class="px-6 py-4 text-red-500 font-black text-lg">SHORT</td>
+                <td class="px-6 py-4 text-gray-300 text-xs break-words whitespace-normal w-48">Liquidity Sweep @ VAH Premium</td>
+                <td class="px-6 py-4">
+                    <div class="flex flex-col gap-1 text-xs">
+                        <span class="text-white">ENT: 0.02907</span>
+                        <span class="text-green-400">TGT: 0.02554</span>
+                        <span class="text-red-400">STP: 0.03008</span>
+                    </div>
+                </td>
+                <td class="px-6 py-4 text-blue-400 font-bold">1 : 3.5</td>
+                <td class="px-6 py-4 text-right">
+                    <a href="https://www.tradingview.com/chart/?symbol=BINANCE:SAHARAUSDT" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2 px-4 rounded transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        Chart
+                    </a>
+                </td>
+            </tr><tr class="hover:bg-gray-800 transition bg-green-500/10 border-l-4 border-green-500">
+                <td class="px-6 py-4 font-bold text-white text-base">ORCA<span class="text-xs text-gray-500 ml-1">/USDT</span></td>
+                <td class="px-6 py-4 text-green-500 font-black text-lg">LONG</td>
+                <td class="px-6 py-4 text-gray-300 text-xs break-words whitespace-normal w-48">Liquidity Sweep @ VAL Discount</td>
+                <td class="px-6 py-4">
+                    <div class="flex flex-col gap-1 text-xs">
+                        <span class="text-white">ENT: 1.58</span>
+                        <span class="text-green-400">TGT: 1.64</span>
+                        <span class="text-red-400">STP: 1.56</span>
+                    </div>
+                </td>
+                <td class="px-6 py-4 text-blue-400 font-bold">1 : 3.5</td>
+                <td class="px-6 py-4 text-right">
+                    <a href="https://www.tradingview.com/chart/?symbol=BINANCE:ORCAUSDT" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2 px-4 rounded transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        Chart
+                    </a>
+                </td>
+            </tr><tr class="hover:bg-gray-800 transition bg-red-500/10 border-l-4 border-red-500">
+                <td class="px-6 py-4 font-bold text-white text-base">GIGGLE<span class="text-xs text-gray-500 ml-1">/USDT</span></td>
+                <td class="px-6 py-4 text-red-500 font-black text-lg">SHORT</td>
+                <td class="px-6 py-4 text-gray-300 text-xs break-words whitespace-normal w-48">FVG Tap @ VAH Premium</td>
+                <td class="px-6 py-4">
+                    <div class="flex flex-col gap-1 text-xs">
+                        <span class="text-white">ENT: 37.53</span>
+                        <span class="text-green-400">TGT: 35.93</span>
+                        <span class="text-red-400">STP: 37.99</span>
+                    </div>
+                </td>
+                <td class="px-6 py-4 text-blue-400 font-bold">1 : 3.5</td>
+                <td class="px-6 py-4 text-right">
+                    <a href="https://www.tradingview.com/chart/?symbol=BINANCE:GIGGLEUSDT" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2 px-4 rounded transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        Chart
+                    </a>
+                </td>
+            </tr><tr class="hover:bg-gray-800 transition bg-red-500/10 border-l-4 border-red-500">
+                <td class="px-6 py-4 font-bold text-white text-base">NEAR<span class="text-xs text-gray-500 ml-1">/USDT</span></td>
+                <td class="px-6 py-4 text-red-500 font-black text-lg">SHORT</td>
+                <td class="px-6 py-4 text-gray-300 text-xs break-words whitespace-normal w-48">Liquidity Sweep @ VAH Premium</td>
+                <td class="px-6 py-4">
+                    <div class="flex flex-col gap-1 text-xs">
+                        <span class="text-white">ENT: 1.56</span>
+                        <span class="text-green-400">TGT: 1.46</span>
+                        <span class="text-red-400">STP: 1.58</span>
+                    </div>
+                </td>
+                <td class="px-6 py-4 text-blue-400 font-bold">1 : 3.5</td>
+                <td class="px-6 py-4 text-right">
+                    <a href="https://www.tradingview.com/chart/?symbol=BINANCE:NEARUSDT" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2 px-4 rounded transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        Chart
+                    </a>
+                </td>
+            </tr><tr class="hover:bg-gray-800 transition bg-red-500/10 border-l-4 border-red-500">
+                <td class="px-6 py-4 font-bold text-white text-base">STRK<span class="text-xs text-gray-500 ml-1">/USDT</span></td>
+                <td class="px-6 py-4 text-red-500 font-black text-lg">SHORT</td>
+                <td class="px-6 py-4 text-gray-300 text-xs break-words whitespace-normal w-48">Liquidity Sweep @ VAH Premium</td>
+                <td class="px-6 py-4">
+                    <div class="flex flex-col gap-1 text-xs">
+                        <span class="text-white">ENT: 0.05500</span>
+                        <span class="text-green-400">TGT: 0.04943</span>
+                        <span class="text-red-400">STP: 0.05659</span>
+                    </div>
+                </td>
+                <td class="px-6 py-4 text-blue-400 font-bold">1 : 3.5</td>
+                <td class="px-6 py-4 text-right">
+                    <a href="https://www.tradingview.com/chart/?symbol=BINANCE:STRKUSDT" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2 px-4 rounded transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        Chart
+                    </a>
+                </td>
+            </tr></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // --- Core Math Functions ---
+        function calculateATR(data, period=14) {
+            let tr = [0];
+            for(let i=1; i<data.length; i++) {
+                let hl = data[i].high - data[i].low;
+                let hpc = Math.abs(data[i].high - data[i-1].close);
+                let lpc = Math.abs(data[i].low - data[i-1].close);
+                tr.push(Math.max(hl, hpc, lpc));
+            }
+            let atr = []; let sum = 0;
+            for(let i=0; i<data.length; i++) {
+                sum += tr[i]; if(i >= period) sum -= tr[i-period];
+                atr.push(i >= period -1 ? sum/period : 0);
+            }
+            return atr;
+        }
+
+        function calculateRollingVWAP(data, period) {
+            let vwap = [];
+            for (let i = 0; i < data.length; i++) {
+                let sumPv = 0; let sumV = 0;
+                let start = Math.max(0, i - period);
+                for (let j = start; j <= i; j++) {
+                    let typicalPrice = (data[j].high + data[j].low + data[j].close) / 3;
+                    sumPv += typicalPrice * data[j].volume;
+                    sumV += data[j].volume;
+                }
+                vwap.push(sumV > 0 ? sumPv / sumV : data[i].close);
+            }
+            return vwap;
+        }
+
+        function calculateVolumeProfile(data) {
+            let maxP = -Infinity, minP = Infinity;
+            data.forEach(d => { maxP = Math.max(maxP, d.high); minP = Math.min(minP, d.low); });
+            const bins = 50; const binSize = (maxP - minP) / bins;
+            let profile = Array(bins).fill(0); let totalVolume = 0;
+
+            data.forEach(d => {
+                let typicalPrice = (d.high + d.low + d.close) / 3;
+                let index = Math.floor((typicalPrice - minP) / binSize);
+                if(index >= bins) index = bins - 1;
+                profile[index] += d.volume; totalVolume += d.volume;
+            });
+
+            let maxVol = -1, pocIndex = 0;
+            profile.forEach((v, i) => { if(v > maxVol) { maxVol = v; pocIndex = i; }});
+            const POC = minP + (pocIndex * binSize);
+
+            let vaVol = maxVol, upIdx = pocIndex + 1, downIdx = pocIndex - 1;
+            while (vaVol < totalVolume * 0.70 && (upIdx < bins || downIdx >= 0)) {
+                let upV = upIdx < bins ? profile[upIdx] : -1;
+                let downV = downIdx >= 0 ? profile[downIdx] : -1;
+                if (upV > downV) { vaVol += upV; upIdx++; } else { vaVol += downV; downIdx--; }
+            }
+            return { VAH: minP + (upIdx * binSize), POC, VAL: minP + (downIdx * binSize) };
+        }
+
+        // --- DOM Elements & State ---
+        const btn = document.getElementById('startScanBtn');
+        const status = document.getElementById('scanStatus');
+        const table = document.getElementById('resultsTable');
+        const pulse = document.getElementById('pulseIndicator');
+        const limitSelect = document.getElementById('scanLimit');
+        const tfSelect = document.getElementById('timeframeSelect');
+
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+        // --- Scanner Logic ---
+        async function runScanner() {
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            pulse.classList.replace('bg-gray-600', 'bg-red-500');
+            pulse.classList.add('animate-ping');
+            table.innerHTML = '';
+            
+            const limit = parseInt(limitSelect.value);
+            const tf = tfSelect.value;
+            
+            try {
+                status.innerHTML = `<span class="flex items-center gap-2"><div class="w-4 h-4 border-2 border-gray-400 border-t-red-500 rounded-full loader"></div> Locating highest volume pairs...</span>`;
+                
+                const res = await fetch('https://api.binance.com/api/v3/ticker/24hr');
+                const data = await res.json();
+                
+                const pairs = data
+                    .filter(d => d.symbol.endsWith('USDT') && !d.symbol.includes('UP') && !d.symbol.includes('DOWN'))
+                    .sort((a, b) => parseFloat(b.quoteVolume) - parseFloat(a.quoteVolume))
+                    .slice(0, limit)
+                    .map(d => d.symbol);
+
+                for (let i = 0; i < pairs.length; i++) {
+                    const symbol = pairs[i];
+                    status.innerHTML = `<span class="flex items-center gap-2"><div class="w-4 h-4 border-2 border-gray-400 border-t-red-500 rounded-full loader"></div> Scraping Order Flow: ${symbol} (${i+1}/${limit})</span>`;
+                    
+                    const klineRes = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${tf}&limit=300`);
+                    if (!klineRes.ok) throw new Error("API Limit");
+                    const rawKlines = await klineRes.json();
+                    
+                    const klines = rawKlines.map(d => ({
+                        time: d[0] / 1000, open: parseFloat(d[1]), high: parseFloat(d[2]), low: parseFloat(d[3]), close: parseFloat(d[4]), volume: parseFloat(d[5])
+                    }));
+
+                    if (klines.length >= 100) {
+                        const vp = calculateVolumeProfile(klines.slice(-100)); // Micro-session profile
+                        const atr = calculateATR(klines);
+                        const vwapData = calculateRollingVWAP(klines, 100);
+
+                        // Analyse the most recently CLOSED candle
+                        const current = klines[klines.length - 2];
+                        const prev1 = klines[klines.length - 3];
+                        const prev2 = klines[klines.length - 4];
+                        const volAtr = atr[atr.length - 2];
+                        const currentVWAP = vwapData[vwapData.length - 2];
+
+                        // Sweep Detection (10 periods)
+                        let max10 = -Infinity, min10 = Infinity;
+                        for(let j=3; j<=12; j++) {
+                            if(klines[klines.length - j]) {
+                                max10 = Math.max(max10, klines[klines.length - j].high);
+                                min10 = Math.min(min10, klines[klines.length - j].low);
+                            }
+                        }
+                        
+                        const isBullSweep = current.low < min10 && current.close > current.open;
+                        const isBearSweep = current.high > max10 && current.close < current.open;
+                        
+                        // FVG Detection
+                        const isBullishFVG = prev2.high < current.low && prev1.close > prev1.open;
+                        const isBearishFVG = prev2.low > current.high && prev1.close < prev1.open;
+
+                        // LONG EVALUATION
+                        if ((isBullSweep || isBullishFVG) && current.low <= vp.VAL) {
+                            let entry = current.close;
+                            let sl = current.low - (volAtr * 0.5);
+                            let risk = entry - sl;
+                            let tp = entry + (risk * 3.5); // Aiming for slightly more than 1:3 on targets
+                            let actualRR = (tp - entry) / risk;
+
+                            if (risk > 0 && actualRR >= 3) {
+                                let context = isBullSweep ? "Liquidity Sweep" : "FVG Tap";
+                                context += " @ VAL Discount";
+                                appendResult(symbol, 'LONG', context, entry, tp, sl, actualRR, 'text-green-500', 'bg-green-500/10');
+                            }
+                        }
+
+                        // SHORT EVALUATION
+                        if ((isBearSweep || isBearishFVG) && current.high >= vp.VAH) {
+                            let entry = current.close;
+                            let sl = current.high + (volAtr * 0.5);
+                            let risk = sl - entry;
+                            let tp = entry - (risk * 3.5);
+                            let actualRR = (entry - tp) / risk;
+
+                            if (risk > 0 && actualRR >= 3) {
+                                let context = isBearSweep ? "Liquidity Sweep" : "FVG Tap";
+                                context += " @ VAH Premium";
+                                appendResult(symbol, 'SHORT', context, entry, tp, sl, actualRR, 'text-red-500', 'bg-red-500/10');
+                            }
+                        }
+                    }
+
+                    await sleep(200); // 200ms delay protects you from Binance API bans
+                }
+
+                status.innerHTML = `<span class="text-green-400 font-bold">Hunt Complete. Found ${table.children.length} setups.</span>`;
+            } catch (err) {
+                console.error(err);
+                status.innerHTML = `<span class="text-red-400 font-bold">Scan interrupted: API Rate Limit hit. Wait 1 min.</span>`;
+            }
+            
+            btn.disabled = false;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            pulse.classList.replace('bg-red-500', 'bg-gray-600');
+            pulse.classList.remove('animate-ping');
+        }
+
+        // --- UI Rendering ---
+        function appendResult(symbol, type, context, entry, tp, sl, rr, colorText, colorBg) {
+            const cleanSymbol = symbol.replace('USDT', '');
+            const tvLink = `https://www.tradingview.com/chart/?symbol=BINANCE:${symbol}`;
+            
+            const row = document.createElement('tr');
+            row.className = `hover:bg-gray-800 transition ${colorBg} border-l-4 ${type === 'LONG' ? 'border-green-500' : 'border-red-500'}`;
+            
+            row.innerHTML = `
+                <td class="px-6 py-4 font-bold text-white text-base">${cleanSymbol}<span class="text-xs text-gray-500 ml-1">/USDT</span></td>
+                <td class="px-6 py-4 ${colorText} font-black text-lg">${type}</td>
+                <td class="px-6 py-4 text-gray-300 text-xs break-words whitespace-normal w-48">${context}</td>
+                <td class="px-6 py-4">
+                    <div class="flex flex-col gap-1 text-xs">
+                        <span class="text-white">ENT: ${entry < 1 ? entry.toFixed(5) : entry.toFixed(2)}</span>
+                        <span class="text-green-400">TGT: ${tp < 1 ? tp.toFixed(5) : tp.toFixed(2)}</span>
+                        <span class="text-red-400">STP: ${sl < 1 ? sl.toFixed(5) : sl.toFixed(2)}</span>
+                    </div>
+                </td>
+                <td class="px-6 py-4 text-blue-400 font-bold">1 : ${rr.toFixed(1)}</td>
+                <td class="px-6 py-4 text-right">
+                    <a href="${tvLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2 px-4 rounded transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        Chart
+                    </a>
+                </td>
+            `;
+            
+            // Insert at the top of the table so newest/best setups are seen first
+            table.insertBefore(row, table.firstChild);
+        }
+
+        btn.addEventListener('click', runScanner);
+    </script>
+
+</body></html>
